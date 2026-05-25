@@ -1,0 +1,14 @@
+services:
+  reviewshield:
+    build: .
+    ports:
+      - "42000:42000"
+    volumes:
+      - reviewshield-data:/app/data
+    environment:
+      - PORT=42000
+      - DATABASE_PATH=/app/data/reviewshield.db
+      - CUSTOM_RULES_PATH=/app/rules
+
+volumes:
+  reviewshield-data:

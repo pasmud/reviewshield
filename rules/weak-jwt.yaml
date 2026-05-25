@@ -1,0 +1,21 @@
+rules:
+- id: weak-jwt-configuration
+  patterns:
+  - pattern-either:
+    - pattern: 'jwt.sign($PAYLOAD, $SECRET, { algorithm: "none" })'
+    - pattern: 'jwt.sign($PAYLOAD, $SECRET, { algorithm: "HS256" })'
+    - pattern: 'jwt.verify($TOKEN, $SECRET, { algorithms: ["none"] })'
+    - pattern: 'jsonwebtoken.sign($PAYLOAD, $SECRET, { algorithm: "none" })'
+    - pattern: 'jwt.sign($PAYLOAD, "")'
+    - pattern: 'jwt.sign($PAYLOAD, null)'
+  severity: HIGH
+  message: >
+    Weak JWT configuration detected. Avoid 'none' algorithm and
+    empty/null secrets. Use RS256 or ES256 with proper key management.
+  languages:
+  - javascript
+  - typescript
+  metadata:
+    owasp: A02:2021 - Cryptographic Failures
+    cwe: CWE-345
+    confidence: HIGH

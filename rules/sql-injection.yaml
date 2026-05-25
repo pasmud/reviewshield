@@ -1,0 +1,25 @@
+rules:
+- id: no-sql-injection
+  patterns:
+  - pattern-either:
+    - pattern: 'db.execute("..." $VAR)'
+    - pattern: 'db.query("..." $VAR)'
+    - pattern: 'query("SELECT ..." + $VAR)'
+    - pattern: 'query(`SELECT ... ${$VAR}`)'
+    - pattern: 'db.run("..." + $VAR)'
+    - pattern: 'pool.query("..." + $VAR)'
+    - pattern-either:
+      - pattern: "SELECT ...'$VAR'"
+      - pattern: 'SELECT ..."$VAR"'
+  severity: CRITICAL
+  message: >
+    Possible SQL injection vulnerability. Use parameterized queries or
+    prepared statements instead of string concatenation.
+  languages:
+  - javascript
+  - typescript
+  - python
+  metadata:
+    owasp: A03:2021 - Injection
+    cwe: CWE-89
+    confidence: HIGH

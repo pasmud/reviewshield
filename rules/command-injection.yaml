@@ -1,0 +1,25 @@
+rules:
+- id: no-command-injection
+  patterns:
+  - pattern-either:
+    - pattern: exec($ARG)
+    - pattern: execSync($ARG)
+    - pattern: spawn($ARG)
+    - pattern: execFile($ARG,...)
+    - pattern: child_process.exec($ARG)
+    - pattern: child_process.execSync($ARG)
+    - pattern: child_process.spawn($ARG)
+    - pattern: os.system($ARG)
+    - pattern: subprocess.call($ARG)
+  severity: CRITICAL
+  message: >
+    Potential command injection vulnerability. Avoid passing user input
+    to shell commands. Use safer APIs or validate/sanitize input strictly.
+  languages:
+  - javascript
+  - typescript
+  - python
+  metadata:
+    owasp: A03:2021 - Injection
+    cwe: CWE-78
+    confidence: HIGH

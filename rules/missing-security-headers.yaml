@@ -1,0 +1,32 @@
+rules:
+- id: missing-security-headers
+  patterns:
+  - pattern-either:
+    - pattern: |
+        app.use(express.static(...))
+    - pattern: |
+        app.get("...", (req, res) => {
+          ...
+        })
+  - pattern-not: |
+      res.setHeader("Content-Security-Policy", ...)
+  - pattern-not: |
+      res.setHeader("X-Content-Type-Options", ...)
+  - pattern-not: |
+      res.setHeader("X-Frame-Options", ...)
+  - pattern-not: |
+      res.setHeader("Strict-Transport-Security", ...)
+  - pattern-not: |
+      helmet()
+  severity: MEDIUM
+  message: >
+    Security headers not detected. Consider using helmet() middleware or
+    manually setting Content-Security-Policy, X-Content-Type-Options,
+    X-Frame-Options, and Strict-Transport-Security headers.
+  languages:
+  - javascript
+  - typescript
+  metadata:
+    owasp: A05:2021 - Security Misconfiguration
+    cwe: CWE-693
+    confidence: MEDIUM

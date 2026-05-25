@@ -1,0 +1,20 @@
+rules:
+- id: no-unsafe-eval
+  patterns:
+  - pattern-either:
+    - pattern: eval($ARG)
+    - pattern: Function($ARG)
+    - pattern: setTimeout("...", ...)
+    - pattern: setInterval("...", ...)
+  severity: HIGH
+  message: >
+    Avoid using eval() or dynamic code execution. This can lead to
+    code injection vulnerabilities. Use safer alternatives like
+    JSON.parse() for JSON or Function constructors with care.
+  languages:
+  - javascript
+  - typescript
+  metadata:
+    owasp: A03:2021 - Injection
+    cwe: CWE-95
+    confidence: HIGH
