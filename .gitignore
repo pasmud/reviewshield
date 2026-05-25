@@ -7,4 +7,5 @@ data/
 *.log
 test-results/
 playwright-report/
+FOLLOWUP_FROM_MAIN.md
 nul
